@@ -38,20 +38,81 @@
 
         /* Timeline Styling */
         .roadmap { border-left: 2px solid var(--border); margin-left: 30px; padding-left: 40px; }
-        .stage { position: relative; margin-bottom: 60px; }
+        .stage { position: relative; margin-bottom: 30px; }
         .stage::before {
             content: ''; position: absolute; left: -51px; top: 0;
             width: 20px; height: 20px; background: var(--bg-color);
             border: 3px solid var(--primary); border-radius: 50%;
         }
 
-        .stage-title { color: var(--primary); font-family: 'JetBrains Mono'; margin-bottom: 20px; font-size: 1.8rem; }
+        .stage-title { 
+            color: var(--primary); 
+            font-family: 'JetBrains Mono'; 
+            margin-bottom: 15px; 
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-right: 20px;
+            transition: color 0.3s ease;
+        }
+        
+        .stage-title:hover {
+            color: #00cc83;
+        }
+        
+        .stage-title::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        
+        .stage-title.expanded::after {
+            content: '−';
+        }
 
         /* Resource Grid */
-        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .res-box { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; }
-        .res-box h4 { margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; color: var(--dim); letter-spacing: 1px; }
+        .resource-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 15px;
+            transition: max-height 0.4s ease, opacity 0.3s ease, margin-bottom 0.4s ease;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
         
+        .stage.expanded .resource-grid {
+            max-height: 2000px;
+            opacity: 1;
+            margin-bottom: 30px;
+        }
+        
+        .res-box { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            padding: 20px; 
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .stage.expanded .res-box {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .res-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .res-box h4 { margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; color: var(--dim); letter-spacing: 1px; }
+
         .link-item { display: block; color: var(--text); text-decoration: none; margin-bottom: 8px; font-size: 0.95rem; transition: 0.2s; }
         .link-item:hover { color: var(--primary); padding-left: 5px; }
 
@@ -59,8 +120,37 @@
         .point-done input { accent-color: var(--primary); }
 
         /* Track Selection */
-        .track-split { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
-        .track-card { background: #1c1326; border: 1px solid var(--secondary); padding: 30px; border-radius: 15px; }
+        .track-split { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 30px; 
+            margin-top: 20px;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .stage.expanded .track-split {
+            max-height: 1000px;
+            opacity: 1;
+        }
+        
+        .track-card { 
+            background: #1c1326; 
+            border: 1px solid var(--secondary); 
+            padding: 30px; 
+            border-radius: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
+        }
+        
+        .stage.expanded .track-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         .track-card h3 { color: var(--secondary); margin-bottom: 15px; text-align: center; font-size: 1.5rem; }
 
         /* SOC Section */
@@ -85,11 +175,13 @@
         @media (max-width: 768px) {
             .track-split { grid-template-columns: 1fr; }
             header h1 { font-size: 2rem; }
+            .roadmap { margin-left: 15px; padding-left: 25px; }
+            .stage::before { left: -36px; }
+            .stage-title { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
-
     <div class="banner">Made by Pwn3rx0 | NullBytes Community</div>
 
     <header>
@@ -99,24 +191,34 @@
 
     <div class="container">
         <div class="roadmap">
-            
             <div class="stage">
                 <h2 class="stage-title">01. Pre-Security Fundamentals</h2>
                 <div class="resource-grid">
                     <div class="res-box">
                         <h4>Material</h4>
-                        <a href="#" class="link-item">Network+ Complete Course</a>
-                        <a href="#" class="link-item">Linux Fundamentals PDF</a>
+                        <a href="https://netriders.academy/all-courses/pre-cybersecurity" class="link-item">Pre-Security Course (Free)</a>
+                        <a href="https://www.youtube.com/playlist?list=PLH-n8YK76vIiuIZoWvHL7AvtrDV7hR3He" class="link-item">Network+ Complete Course (Youtube)</a>
+                        <a href="https://www.youtube.com/watch?v=OxL0B1F65W8&t=706s&pp=ygUNbGludXggYmFzaWNzIA%3D%3D" class="link-item">Linux Fundamentals (Youtube)</a>
                     </div>
                     <div class="res-box">
                         <h4>Labs & Machines</h4>
-                        <a href="#" class="link-item">THM: Networking Room</a>
-                        <a href="#" class="link-item">THM: Linux Journey</a>
+                        <a href="https://tryhackme.com/room/introtonetworking" class="link-item">THM: Introductory Networking</a>
+                        <a href="https://tryhackme.com/room/linuxfundamentalspart1" class="link-item">THM: Linux Fundamentals Part 1</a>
+                        <a href="https://overthewire.org/wargames/bandit/" class="link-item">OverTheWire: bandit</a>
+                        <a href="https://tryhackme.com/room/dnsindetail" class="link-item">THM: DNS in Detail</a>
+                        <a href="https://tryhackme.com/room/httpindetail" class="link-item">THM: HTTP in Detail</a>
+                        <a href="https://tryhackme.com/room/openvpn" class="link-item">THM: OpenVPN</a>
                     </div>
                     <div class="res-box">
                         <h4>Points to Finish</h4>
-                        <div class="point-done"><input type="checkbox"> Understand Subnetting</div>
+                        <div class="point-done"><input type="checkbox"> Understand Subnetting & CIDR</div>
                         <div class="point-done"><input type="checkbox"> Basic Bash Scripting</div>
+                        <div class="point-done"><input type="checkbox"> TCP/IP 3-Way Handshake</div>
+                        <div class="point-done"><input type="checkbox"> Common Ports (21,22,80,443,445)</div>
+                        <div class="point-done"><input type="checkbox"> Linux Permissions (chmod/chown)</div>
+                        <div class="point-done"><input type="checkbox"> HTTP Methods & Status Codes</div>
+                        <div class="point-done"><input type="checkbox"> Hashing vs Encryption Basics</div>
+                        <div class="point-done"><input type="checkbox"> VM Setup & Snapshotting</div>
                     </div>
                 </div>
             </div>
@@ -126,18 +228,53 @@
                 <div class="resource-grid">
                     <div class="res-box">
                         <h4>Material</h4>
-                        <a href="#" class="link-item">INE eJPT Course Material</a>
-                        <a href="#" class="link-item">Pivoting Cheatsheet</a>
+                        <a href="https://my.ine.com/CyberSecurity/learning-paths/61f88d91-79ff-4d8f-af68-873883dbbd8c/penetration-testing-student" class="link-item">INE: eJPTv2 Official Path (Paid)</a>
+                        <a href="https://netriders.academy/all-courses/penetration-testing-student" class="link-item">eJPTv1 Netriders</a>
+                        <a href="https://tryhackme.com/path/outline/jrpenetrationtester" class="link-item">Jr Penetration Tester THM (Paid)</a>
+                        <a href="https://www.youtube.com/playlist?list=PLtr9ezc61PUbNjSOzxVn98CSy9WrJ_nUQ" class="link-item">Network Pentest (Hassan Saad)</a>
+                        <a href="https://www.youtube.com/watch?v=sH4JCwjybGs&t=1s" class="link-item">Ethical Hacking</a>
+                        <a href="https://adaptable-enemy-53a.notion.site/eJPTv2-Notes-950e9110034148f1a70ee05a0dbf202fs" class="link-item">eJPTv2-Notes</a>
+                        <a href="https://lil-splinter.notion.site/Using-the-Metasploit-Framework-a122aa86874746ed9b472ea0246c1218" class="link-item">Using the Metasploit Framework</a>
                     </div>
                     <div class="res-box">
                         <h4>Labs & Machines</h4>
-                        <a href="#" class="link-item">THM: eJPT Path</a>
-                        <a href="#" class="link-item">BlackBox Lab 1</a>
+                        <a href="https://tryhackme.com/room/activerecon" class="link-item">THM: Active Reconnaissance</a>
+                        <a href="https://tryhackme.com/room/passiverecon" class="link-item">THM: Passive Reconnaissance</a>
+                        <a href="https://tryhackme.com/room/furthernmap" class="link-item">THM: Nmap</a>
+                        <a href="https://tryhackme.com/room/introtonetworking" class="link-item">THM: introtonetworking</a>
+                        <a href="https://tryhackme.com/room/metasploitintro" class="link-item">THM: Metasploit: Introduction</a>
+                        <a href="https://tryhackme.com/room/searchskills" class="link-item">THM: Search Skills</a>
+                        <a href="https://tryhackme.com/room/googledorking" class="link-item">THM: Google Dorking</a>
+                        <a href="https://tryhackme.com/room/hydra" class="link-item">THM: Hdra</a>
+                        <a href="https://tryhackme.com/room/nmap01" class="link-item">THM: Nmap Live Host Discovery</a>
+                        <a href="https://tryhackme.com/room/networkservices" class="link-item">THM: Network Services</a>
+                        <a href="https://tryhackme.com/room/sqlinjectionlm" class="link-item">THM: SQL Injection</a>
+                        <a href="https://tryhackme.com/room/networkservices2" class="link-item">THM: Network Services 2</a>
+                        <a href="https://tryhackme.com/room/enumerationbruteforce" class="link-item">THM: Network Services 2</a>
+                        <a href="https://tryhackme.com/room/networkservices2" class="link-item">THM: Enumeration & Brute Force</a>
+                        <a href="https://tryhackme.com/room/axss" class="link-item">THM: XSS</a>
+                        <a href="https://tryhackme.com/room/ice" class="link-item">THM: Ice</a>
+                        <a href="https://tryhackme.com/room/vulnversity" class="link-item">THM: vulnversity</a>
+                        <a href="https://tryhackme.com/room/picklerick" class="link-item">THM: Pickle Rick</a>
+                        <a href="https://tryhackme.com/room/basicpentestingjt" class="link-item">THM: Basic Pentesting</a>
+                        <a href="https://tryhackme.com/room/mrrobot" class="link-item">THM: Mr Robot</a>
+                        <a href="http://tryhackme.com/room/blue" class="link-item">THM: Blue</a>
                     </div>
                     <div class="res-box">
                         <h4>Points to Finish</h4>
-                        <div class="point-done"><input type="checkbox"> Master Nmap Flags</div>
-                        <div class="point-done"><input type="checkbox"> Pivot through networks</div>
+                        <div class="point-done"><input type="checkbox"> Information Gathering</div> 
+                        <div class="point-done"><input type="checkbox"> Passive & Active Recon</div>
+                        <div class="point-done"><input type="checkbox"> Banner Grabbing</div>
+                        <div class="point-done"><input type="checkbox"> Directory Brute-forcing</div>
+                        <div class="point-done"><input type="checkbox"> Map CVEs to Services</div>
+                        <div class="point-done"><input type="checkbox"> Manual vs. Automated Scans</div>
+                        <div class="point-done"><input type="checkbox"> Metasploit: Listeners & expploits</div>
+                        <div class="point-done"><input type="checkbox"> Staged vs. Non-Staged Payloads</div> 
+                        <div class="point-done"><input type="checkbox"> Password Attacks</div>
+                        <div class="point-done"><input type="checkbox"> Web Enumeration</div> 
+                        <div class="point-done"><input type="checkbox"> Post Exploition & Pivot</div>
+                        <div class="point-done"><input type="checkbox"> Transfer Files to Target (Python HTTP, SCP, Certutil)</div>
+                        <div class="point-done"><input type="checkbox"> Report Writing</div>                    
                     </div>
                 </div>
             </div>
@@ -147,18 +284,30 @@
                 <div class="resource-grid">
                     <div class="res-box">
                         <h4>Material</h4>
-                        <a href="#" class="link-item">PortSwigger Web Academy</a>
-                        <a href="#" class="link-item">OWASP Testing Guide</a>
+                        <a href="https://portswigger.net/web-security" class="link-item">PortSwigger Web Academy</a>
+                        <a href="https://www.youtube.com/@RanaKhalil101" class="link-item">Rana Khalil</a>
+                        <a href="https://www.youtube.com/@NahamSec" class="link-item">NahamSec</a>
+                        <a href="https://www.youtube.com/watch?v=ik2p4Rz4QzM&t=4332s" class="link-item">Practical Web Exploitation</a>
+                        <a href="https://www.youtube.com/watch?v=BjfCWSFmIFI&list=PLv7cogHXoVhXvHPzIl1dWtBiYUAL8baHj" class="link-item">Ebrahim Hegazy</a>
                     </div>
                     <div class="res-box">
                         <h4>Labs & Machines</h4>
-                        <a href="#" class="link-item">Juice Shop Lab</a>
-                        <a href="#" class="link-item">THM: OWASP 2021</a>
+                        <a href="https://portswigger.net/web-security/all-labs" class="link-item">PortSwigger</a>
+                        <a href="https://juice-shop.herokuapp.com/" class="link-item">Juice Shop Lab</a>
+                        <a href="https://tryhackme.com/room/dvwa" class="link-item">THM: DVWA</a>
+                        <a href="https://tryhackme.com/room/nahamstore" class="link-item">THM: NahamStore</a>
+                        <a href="https://tryhackme.com/room/owaspmutillidae" class="link-item">THM: OWASP Mutillidae</a>
                     </div>
                     <div class="res-box">
                         <h4>Points to Finish</h4>
+                        <div class="point-done"><input type="checkbox"> Broken Access Control</div>
+                        <div class="point-done"><input type="checkbox"> Injection</div>
+                        <div class="point-done"><input type="checkbox"> Server-Side Request Forgery</div>
+                        <div class="point-done"><input type="checkbox"> Broken Authentication</div>
+                        <div class="point-done"><input type="checkbox"> Burp Suite</div>
+                        <div class="point-done"><input type="checkbox"> File Upload Bypass</div>
+                        <div class="point-done"><input type="checkbox"> Cookie Security</div>
                         <div class="point-done"><input type="checkbox"> Manual SQLi Injection</div>
-                        <div class="point-done"><input type="checkbox"> XSS Data Exfiltration</div>
                     </div>
                 </div>
             </div>
@@ -168,18 +317,32 @@
                 <div class="resource-grid">
                     <div class="res-box">
                         <h4>Material</h4>
-                        <a href="#" class="link-item">Tib3rius Windows Course</a>
-                        <a href="#" class="link-item">TCMS Linux PrivEsc</a>
+                        <a href="https://www.youtube.com/watch?v=uTcrbNBcoxQ&t=3005s" class="link-item">Windows Privilege Escalation</a>
+                        <a href="https://www.youtube.com/watch?v=dSa_mdg3gCg&list=PLBf0hzazHTGMBgq3RXdGDNJjw9iEz-lKz&pp=0gcJCbYEOCosWNin" class="link-item">Windows Privilege Escalation</a>
+                        <a href="https://www.youtube.com/watch?v=ZTnwg3qCdVM&pp=ygUaTGludXggUHJpdmlsZWdlIEVzY2FsYXRpb24%3D" class="link-item">Linux Privilege Escalation</a>
+                        <a href="https://www.youtube.com/watch?v=VpNaPAh93vE&list=PLDrNMcTNhhYrBNZ_FdtMq-gLFQeUZFzWV" class="link-item">Privilege Escalation</a>
                     </div>
                     <div class="res-box">
                         <h4>Labs & Machines</h4>
-                        <a href="#" class="link-item">Windows PrivEsc Arena</a>
-                        <a href="#" class="link-item">HTB: Linux PrivEsc</a>
+                        <a href="https://tryhackme.com/room/linprivesc" class="link-item">Linux Privilege Escalation</a>
+                        <a href="https://tryhackme.com/room/windowsprivescarena" class="link-item">Windows PrivEsc Arena</a>
+                        <a href="https://tryhackme.com/room/linuxprivescarena" class="link-item">Linux PrivEsc Arena</a>
+                        <a href="https://tryhackme.com/room/linuxprivesc" class="link-item">Linux PrivEsc</a>
+                        <a href="https://tryhackme.com/room/windows10privesc" class="link-item">Windows PrivEsc</a>
                     </div>
                     <div class="res-box">
                         <h4>Points to Finish</h4>
                         <div class="point-done"><input type="checkbox"> Exploit SUID Binaries</div>
+                        <div class="point-done"><input type="checkbox"> Sudo Rights & Abuse</div>
+                        <div class="point-done"><input type="checkbox"> Cron Job & Writable Script</div>
+                        <div class="point-done"><input type="checkbox"> Readable /etc/shadow or Writable /etc/passwd</div>
                         <div class="point-done"><input type="checkbox"> Token Impersonation</div>
+                        <div class="point-done"><input type="checkbox"> Unquoted Service Paths</div>
+                        <div class="point-done"><input type="checkbox"> Writable Services</div>
+                        <div class="point-done"><input type="checkbox"> Credential Hunting</div>
+                        <div class="point-done"><input type="checkbox"> AlwaysInstallElevated Registry Keys</div>
+                        <div class="point-done"><input type="checkbox"> LinPEAS & WinPEAS</div>
+                        <div class="point-done"><input type="checkbox"> Kernel Exploit</div>
                     </div>
                 </div>
             </div>
@@ -204,16 +367,20 @@
                         <div class="res-box" style="margin-bottom:10px">
                             <h4>Material</h4>
                             <a href="#" class="link-item">PEN-200 Materials</a>
+                            <a href="https://www.youtube.com/watch?v=VAV0Z8GGT9g&list=PL5dZpxpUkHPM0HMefFCFjGeLAwyty4LYm" class="link-item">Mr Limbo</a>
+                            <a href="https://www.youtube.com/watch?v=2DqdPcbYcy8&list=PLidcsTyj9JXK-fnabFLVEvHinQ14Jy5tf" class="link-item">Ippsec</a>
                         </div>
                         <div class="res-box">
                             <h4>Labs</h4>
                             <a href="#" class="link-item">Proving Grounds (PG)</a>
+                            <a href="https://docs.google.com/spreadsheets/u/1/d/1dwSMIAPIam0PuRBkCiDI88pU3yzrqqHkDtBngUHNCw8/htmlview" class="link-item">TJ Null List</a>
                         </div>
                     </div>
                 </div>
             </div>
-
-        </div> <div class="soc-section">
+        </div> 
+        
+        <div class="soc-section">
             <h2 style="font-family: 'JetBrains Mono'; margin-bottom: 10px;">SOC TRACK</h2>
             <p>Coming Soon...</p>
         </div>
@@ -223,11 +390,95 @@
         <h2>Join the NullBytes Community</h2>
         <p>Stay updated with the latest labs and bypasses</p>
         <div class="comm-links">
-            <a href="YOUR_WHATSAPP_LINK" class="comm-btn wa">WhatsApp Channel</a>
-            <a href="YOUR_LINKEDIN_LINK" class="comm-btn li">LinkedIn Profile</a>
+            <a href="https://chat.whatsapp.com/EgkvkLmh2xM2vvZw0B3Dua" class="comm-btn wa">WhatsApp Channel</a>
+            <a href="https://www.linkedin.com/in/andrew-mamdouh122" class="comm-btn li">LinkedIn Profile</a>
         </div>
         <p style="margin-top: 40px; color: #444; font-size: 0.8rem;">Developed by Pwn3rx0 for NullBytes</p>
     </section>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all stage titles
+            const stageTitles = document.querySelectorAll('.stage-title');
+            
+            // Initialize all sections as COLLAPSED by default
+            stageTitles.forEach(title => {
+                // All sections start collapsed
+                const stage = title.parentElement;
+                
+                // Set initial state as collapsed
+                // No need to add 'expanded' class initially
+                
+                // Set initial max-height for content to 0
+                const content = stage.querySelector('.resource-grid, .track-split');
+                if (content) {
+                    content.style.maxHeight = '0';
+                }
+            });
+            
+            // Add click event listeners to stage titles
+            stageTitles.forEach(title => {
+                title.addEventListener('click', function() {
+                    const stage = this.parentElement;
+                    const content = stage.querySelector('.resource-grid, .track-split');
+                    
+                    // Toggle expanded class on the title
+                    this.classList.toggle('expanded');
+                    
+                    // Toggle expanded class on the stage
+                    stage.classList.toggle('expanded');
+                    
+                    if (stage.classList.contains('expanded')) {
+                        // If expanding, set max-height to a large value
+                        if (content) {
+                            content.style.maxHeight = content.scrollHeight + 'px';
+                        }
+                    } else {
+                        // If collapsing, set max-height to 0
+                        if (content) {
+                            content.style.maxHeight = '0';
+                        }
+                    }
+                });
+            });
+            
+            // Optional: Add ability to expand all with Ctrl+E and collapse all with Ctrl+Shift+E
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'e' && !e.shiftKey) {
+                    e.preventDefault();
+                    // Expand all
+                    stageTitles.forEach(title => {
+                        const stage = title.parentElement;
+                        const content = stage.querySelector('.resource-grid, .track-split');
+                        
+                        if (!stage.classList.contains('expanded')) {
+                            title.classList.add('expanded');
+                            stage.classList.add('expanded');
+                            if (content) {
+                                content.style.maxHeight = content.scrollHeight + 'px';
+                            }
+                        }
+                    });
+                }
+                
+                if (e.ctrlKey && e.shiftKey && e.key === 'E') {
+                    e.preventDefault();
+                    // Collapse all
+                    stageTitles.forEach(title => {
+                        const stage = title.parentElement;
+                        const content = stage.querySelector('.resource-grid, .track-split');
+                        
+                        if (stage.classList.contains('expanded')) {
+                            title.classList.remove('expanded');
+                            stage.classList.remove('expanded');
+                            if (content) {
+                                content.style.maxHeight = '0';
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
